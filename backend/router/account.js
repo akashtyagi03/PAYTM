@@ -1,12 +1,11 @@
 // creating accounts router. most intresting part of the project.
 const expreess = require('express');
-const router = expreess.Router();
+const Accountrouter = expreess.Router();
 const {auth} = require('../middleware');
 const { Account } = require('../db');
 const mongoose = require('mongoose');
 
-router.get("/balance", auth, async(req, res)=>{
-    console.log("✅ Middleware passed. userId from token:", req.userId);
+Accountrouter.get("/balance", auth, async(req, res)=>{
     const account = await Account.findOne({
         userId: req.userId
     })
@@ -20,7 +19,7 @@ router.get("/balance", auth, async(req, res)=>{
     });
 })
 
-router.post("/transfer", auth, async (req, res) => {
+Accountrouter.post("/transfer", auth, async (req, res) => {
     // we created session to handle transaction. All the operations inside the transaction will be treated as a single unit. it does all logic at once. 
     const session = await mongoose.startSession();
 
@@ -59,4 +58,4 @@ router.post("/transfer", auth, async (req, res) => {
     });
 });
 
-module.exports = router;
+module.exports = Accountrouter;

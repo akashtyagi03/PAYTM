@@ -1,4 +1,3 @@
-const {JWT_SECRET} = require('./config');
 const jwt = require('jsonwebtoken');
 
 // Middleware to authenticate requests using JWT
@@ -9,9 +8,8 @@ const auth = (req, res, next) => {
     if (!bearerHeader || !bearerHeader.startsWith('Bearer ') || !token) {
         return res.status(401).json({ message: 'No token provided' });
     }
-    console.log("JWT_SECRET:", JWT_SECRET);
 
-    jwt.verify(token, JWT_SECRET, (err, decoded) => {
+    jwt.verify(token, process.env.JWT_SECRET_TOKEN , (err, decoded) => {
         if (err) {
             return res.status(403).json({ 
                 message: 'Failed to authenticate token',
